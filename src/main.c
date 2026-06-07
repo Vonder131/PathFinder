@@ -62,13 +62,8 @@ void Draw() {
 Rectangle getCellFromMousePosition() {
     Rectangle cell = { 0, 0,CELL_SIZE,CELL_SIZE };
 
-    while (cell.x < GetMouseX() - 18) {
-        cell.x += 18;
-    }
-
-    while (cell.y < GetMouseY() - 18) {
-        cell.y += 18;
-    }
+    cell.x = ((int)(GetMouseX() / CELL_SIZE) * CELL_SIZE);
+    cell.y = ((int)(GetMouseY() / CELL_SIZE) * CELL_SIZE);
 
     return cell;
 }
