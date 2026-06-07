@@ -22,13 +22,23 @@ Rectangle drawArea = { 0,0,DRAW_AREA_WIDTH,DRAW_AREA_HEIGHT };
 
 void DrawCells();
 void Draw();
+
+//---Util Functions---
 Rectangle getCellFromMousePosition();
 bool MouseInDrawArea();
 float CalculateDistanceBetweenNodes(Node* source, Node* destination);
 
 
+
+
+
 int main()
 {
+    Node node1 = { 113, 120, 0, 0 , 0 , NULL };
+    Node node2 = { 380, 920, 0, 0 , 0 , NULL };
+
+    printf("Distance is: %.5f\n", CalculateDistanceBetweenNodes(&node1, &node2));
+
     InitWindow(1280, 720, "Pathfinder visualizer");
 
     while (!WindowShouldClose()) {
@@ -91,5 +101,6 @@ bool MouseInDrawArea() {
 }
 
 float CalculateDistanceBetweenNodes(Node* source, Node* destination) {
-    return 0;
+
+    return sqrtf((pow(destination->x - source->x, 2) + pow(destination->y - source->y, 2)));
 }
