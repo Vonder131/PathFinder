@@ -28,8 +28,8 @@ Rectangle getCellFromMousePosition();
 bool MouseInDrawArea();
 float CalculateDistanceBetweenNodes(Node* source, Node* destination);
 
-
-
+//---Debug Functions---
+void printNode(Node* node);
 
 
 int main()
@@ -100,7 +100,13 @@ bool MouseInDrawArea() {
         return false;
 }
 
-float CalculateDistanceBetweenNodes(Node* source, Node* destination) {
 
+
+float CalculateDistanceBetweenNodes(Node* source, Node* destination) {
     return sqrtf((pow(destination->x - source->x, 2) + pow(destination->y - source->y, 2)));
+}
+
+
+void printNode(Node* node) {
+    printf("Node:{ X = %d; Y = %d; G = %.3f; H = %.3f; F = %.3f};\n", node->x, node->y, node->g, node->h, node->f);
 }
