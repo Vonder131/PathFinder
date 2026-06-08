@@ -7,6 +7,8 @@
 Color textColor;
 
 typedef struct Node Node;
+typedef struct Item Item;
+typedef struct Deque Deque;
 
 struct Node {
     int x;
@@ -16,6 +18,17 @@ struct Node {
     float f;
 
     Node *parent;
+};
+
+struct Item {
+    Node node;
+    Item* prev;
+    Item* next;
+};
+
+struct Deque {
+    Item* first;
+    Item* last;
 };
 
 Rectangle drawArea = { 0,0,DRAW_AREA_WIDTH,DRAW_AREA_HEIGHT };
@@ -100,12 +113,9 @@ bool MouseInDrawArea() {
         return false;
 }
 
-
-
 float CalculateDistanceBetweenNodes(Node* source, Node* destination) {
     return sqrtf((pow(destination->x - source->x, 2) + pow(destination->y - source->y, 2)));
 }
-
 
 void printNode(Node* node) {
     printf("Node:{ X = %d; Y = %d; G = %.3f; H = %.3f; F = %.3f};\n", node->x, node->y, node->g, node->h, node->f);
