@@ -10,6 +10,8 @@ typedef struct Node Node;
 typedef struct Item Item;
 typedef struct Deque Deque;
 
+//---Structs---
+
 struct Node {
     int x;
     int y;
@@ -31,8 +33,10 @@ struct Deque {
     Item* last;
 };
 
+//---Data---
 Rectangle drawArea = { 0,0,DRAW_AREA_WIDTH,DRAW_AREA_HEIGHT };
 
+//Draw functions
 void DrawCells();
 void Draw();
 
@@ -45,13 +49,9 @@ float CalculateDistanceBetweenNodes(Node* source, Node* destination);
 void printNode(Node* node);
 
 
+
 int main()
 {
-    Node node1 = { 113, 120, 0, 0 , 0 , NULL };
-    Node node2 = { 380, 920, 0, 0 , 0 , NULL };
-
-    printf("Distance is: %.5f\n", CalculateDistanceBetweenNodes(&node1, &node2));
-
     InitWindow(1280, 720, "Pathfinder visualizer");
 
     while (!WindowShouldClose()) {
