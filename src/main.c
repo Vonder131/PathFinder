@@ -1,5 +1,8 @@
-﻿#include "raylib.h"
-#include "math.h"
+﻿#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>   
+#include "raylib.h"
+
 #define DRAW_AREA_WIDTH 1278
 #define DRAW_AREA_HEIGHT 594
 #define CELL_SIZE 18
@@ -36,7 +39,7 @@ struct Deque {
 //---Data---
 Rectangle drawArea = { 0,0,DRAW_AREA_WIDTH,DRAW_AREA_HEIGHT };
 
-//Draw functions
+//---Draw functions---
 void DrawCells();
 void Draw();
 
@@ -44,15 +47,21 @@ void Draw();
 Rectangle getCellFromMousePosition();
 bool MouseInDrawArea();
 float CalculateDistanceBetweenNodes(Node* source, Node* destination);
+int pushFront(Deque* deque, Node node);
+void pushBack(Deque* deque, Node node);
+
 
 //---Debug Functions---
-void printNode(Node* node);
+int printNode(Node* node);
+int printDeque(Deque* deque);
+void Test();
 
 
 
 int main()
 {
     InitWindow(1280, 720, "Pathfinder visualizer");
+    Test();
 
     while (!WindowShouldClose()) {
         Draw();
@@ -61,7 +70,6 @@ int main()
     CloseWindow();
 	return 0;
 }
-
 
 void DrawCells() {
     for (int i = 0; i < DRAW_AREA_WIDTH / CELL_SIZE; i++) {
@@ -75,9 +83,7 @@ void DrawCells() {
 
 void Draw() {
     BeginDrawing();
-
-
-
+    
     DrawRectangleLinesEx(drawArea, 3, DARKBLUE);
     ClearBackground(LIGHTGRAY);
     DrawCells();
@@ -117,6 +123,75 @@ float CalculateDistanceBetweenNodes(Node* source, Node* destination) {
     return sqrtf((pow(destination->x - source->x, 2) + pow(destination->y - source->y, 2)));
 }
 
-void printNode(Node* node) {
-    printf("Node:{ X = %d; Y = %d; G = %.3f; H = %.3f; F = %.3f};\n", node->x, node->y, node->g, node->h, node->f);
+int printNode(Node* node) {
+    if(node){
+        printf("Node:{ X = %d; Y = %d; G = %.3f; H = %.3f; F = %.3f};\n", node->x, node->y, node->g, node->h, node->f);
+        return 0;
+    }
+    else {
+        printf("[ERROR]Error printing the node!\n Node is null!");
+        return -1;
+    }
+}
+
+int pushFront(Deque* deque, Node node) {
+    if (deque) {
+        if (deque->first) {
+            Item* item = malloc(sizeof(Item));
+            item->node = node;
+            item->next = deque->first;
+            deque->first = item;
+            return 0;
+        }
+        else {
+            Item* item = malloc(sizeof(Item));
+            item->node = node;
+            item->next = NULL;
+            item->prev = NULL;
+            deque->first = item;
+            deque->last = item;
+            return 0;
+        }
+    }
+    else {
+        printf("[ERROR]Deque is NULL!");
+        return -1;
+    }
+}
+
+int printDeque(Deque* deque) {
+    if (deque) {
+        if (deque->first) {
+            Item* item = deque->first;
+            printNode(&item->node);
+            while (item = item->next) {
+                printNode(&item->node);
+            }
+            return 0;
+        }
+        else {
+            printf("[WARNING]Deque is empty!");
+            return 1;
+        }
+    }
+    else {
+        printf("[ERROR]Deque is NULL!");
+        return -1;
+    }
+}
+
+void Test() {
+    //Here write all printf test code
+    //WARNING! NO DRAWING! -> the call for this function is outside of drawing scope
+
+    Deque d;
+    d.first = NULL;
+    d.last = NULL;
+
+    for (int i = 0; i < 100; i++) {
+        Node node = { i, 0 , 0 , 0 , 0 , NULL};
+        pushFront(&d, node);
+    }
+
+    printDeque(&d);
 }
