@@ -53,6 +53,9 @@ int pushFront(Deque* deque, Node node);
 int pushBack(Deque* deque, Node node);
 Node popFront(Deque* deque);
 Node popBack(Deque* deque);
+Node getFront(Deque* deque);
+Node getBack(Deque* deque);
+
 
 
 //---Debug Functions---
@@ -190,6 +193,22 @@ int pushBack(Deque* deque, Node node) {
     }
 }
 
+Node popFront(Deque* deque) {
+    Node node;
+
+    if (deque) {
+        node = deque->first->node;
+
+        Item* temp = deque->first;
+        deque->first = deque->first->next;
+        free(temp);
+        temp = NULL;
+    }
+
+
+    return node;
+}
+
 int printDeque(Deque* deque) {
     if (deque) {
         if (deque->first) {
@@ -224,5 +243,9 @@ void Test() {
         pushFront(&d, node);
     }
 
-    printDeque(&d);
+    Node newNode = popFront(&d);
+
+    printNode(&newNode);
+
+    //printDeque(&d);
 }
