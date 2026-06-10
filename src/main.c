@@ -47,8 +47,12 @@ void Draw();
 Rectangle getCellFromMousePosition();
 bool MouseInDrawArea();
 float CalculateDistanceBetweenNodes(Node* source, Node* destination);
+
+
 int pushFront(Deque* deque, Node node);
-void pushBack(Deque* deque, Node node);
+int pushBack(Deque* deque, Node node);
+Node popFront(Deque* deque);
+Node popBack(Deque* deque);
 
 
 //---Debug Functions---
@@ -141,6 +145,33 @@ int pushFront(Deque* deque, Node node) {
             item->node = node;
             item->next = deque->first;
             deque->first = item;
+            return 0;
+        }
+        else {
+            Item* item = malloc(sizeof(Item));
+            item->node = node;
+            item->next = NULL;
+            item->prev = NULL;
+            deque->first = item;
+            deque->last = item;
+            return 0;
+        }
+    }
+    else {
+        printf("[ERROR]Deque is NULL!");
+        return -1;
+    }
+}
+
+int pushBack(Deque* deque, Node node) {
+    if (deque) {
+        if (deque->last) {
+            Item* item = malloc(sizeof(Item));
+            item->node = node;
+            item->prev = deque->last;
+            item->prev->next = item;
+            item->next = NULL;
+            deque->last = item;
             return 0;
         }
         else {
