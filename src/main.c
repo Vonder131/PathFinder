@@ -147,6 +147,7 @@ int pushFront(Deque* deque, Node node) {
             Item* item = malloc(sizeof(Item));
             item->node = node;
             item->next = deque->first;
+            item->next->prev = item;
             deque->first = item;
             return 0;
         }
@@ -205,6 +206,20 @@ Node popFront(Deque* deque) {
         temp = NULL;
     }
 
+    return node;
+}
+
+Node popBack(Deque* deque) {
+    Node node;
+
+    if (deque) {
+        node = deque->last->node;
+        Item* temp = deque->last;
+        deque->last->prev->next = NULL;
+        deque->last = deque->last->prev;
+        free(temp);
+        temp = NULL;
+    }
 
     return node;
 }
@@ -243,9 +258,9 @@ void Test() {
         pushFront(&d, node);
     }
 
-    Node newNode = popFront(&d);
+    Node newNode = popBack(&d);
 
     printNode(&newNode);
 
-    //printDeque(&d);
+    printDeque(&d);
 }
