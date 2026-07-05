@@ -224,6 +224,16 @@ Node popBack(Deque* deque) {
     return node;
 }
 
+Node getFront(Deque* deque){
+    Node node;
+    
+    if(deque){
+        node = deque->first->node; 
+    }
+
+    return node;
+}
+
 int printDeque(Deque* deque) {
     if (deque) {
         if (deque->first) {
