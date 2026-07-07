@@ -56,7 +56,14 @@ Node popBack(Deque* deque);
 Node getFront(Deque* deque);
 Node getBack(Deque* deque);
 
+//---TODO---
+int getDequeSize(Deque* deque);
 
+
+//---Main Program functions
+Deque* Initialize_Nodes();
+Deque* A_Star(Node* start, Node* goal);
+Deque* reconstruct_Path(Deque* path, Node* current);
 
 //---Debug Functions---
 int printNode(Node* node);
@@ -167,11 +174,11 @@ int pushFront(Deque* deque, Node node) {
     }
 }
 
-int pushBack(Deque* deque, Node node) {
+int pushBack(Deque* deque, Node* node) {
     if (deque) {
         if (deque->last) {
             Item* item = malloc(sizeof(Item));
-            item->node = node;
+            item->node = *node;
             item->prev = deque->last;
             item->prev->next = item;
             item->next = NULL;
@@ -180,7 +187,7 @@ int pushBack(Deque* deque, Node node) {
         }
         else {
             Item* item = malloc(sizeof(Item));
-            item->node = node;
+            item->node = *node;
             item->next = NULL;
             item->prev = NULL;
             deque->first = item;
@@ -255,22 +262,26 @@ int printDeque(Deque* deque) {
     }
 }
 
+Deque* Initialize_Nodes() {
+    Deque* deque;
+    deque = malloc(sizeof(Deque));
+    deque->first = NULL;
+    deque->last = NULL;
+    for (int i = 0; i < DRAW_AREA_WIDTH / CELL_SIZE; i++) {
+        for (int j = 0; j < DRAW_AREA_HEIGHT / CELL_SIZE; j++) {
+            Node node = { i * CELL_SIZE, j * CELL_SIZE, 0, 0 ,0 };
+            pushBack(deque, &node);
+        }
+    }
+
+    return deque;
+}
+
 void Test() {
     //Here write all printf test code
     //WARNING! NO DRAWING! -> the call for this function is outside of drawing scope
+    
+    Deque* dq = Initialize_Nodes();
+    printDeque(dq);
 
-    Deque d;
-    d.first = NULL;
-    d.last = NULL;
-
-    for (int i = 0; i < 100; i++) {
-        Node node = { i, 0 , 0 , 0 , 0 , NULL};
-        pushFront(&d, node);
-    }
-
-    Node newNode = popBack(&d);
-
-    printNode(&newNode);
-
-    printDeque(&d);
 }
