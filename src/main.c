@@ -57,6 +57,7 @@ Node getFront(Deque* deque);
 Node getBack(Deque* deque);
 
 //---TODO---
+void freeDeque(Deque** deque);
 int getDequeSize(Deque* deque);
 
 
